@@ -70,9 +70,10 @@ export async function deletePost(req, res) {
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       return res.status(404).send({ msg: "No post exists with that id" });
     }
-    await PostMessage.deleteOne(_id);
+    await PostMessage.deleteOne({ _id: _id });
     res.status(201).json({ msg: "Post deleted successfully " });
   } catch (error) {
+    console.log(error);
     res.status(409).json({ msg: error.message });
   }
 }
