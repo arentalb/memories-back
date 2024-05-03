@@ -13,8 +13,11 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/posts", postsRoutes);
+app.get("/", (req, res) => {
+  res.status(200).send("the server is up ");
+});
 
-const port = process.env.PORT;
+const port = process.env.PORT || 6060;
 
 mongoose
   .connect(process.env.MONGODB_CONNECTION_URL)
