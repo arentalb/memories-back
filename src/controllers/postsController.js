@@ -4,7 +4,9 @@ import mongoose from "mongoose";
 export async function getPosts(req, res) {
   try {
     const postMessages = await PostMessage.find();
-    res.status(200).json(postMessages);
+    res
+      .status(200)
+      .json({ msg: "All posts fetched successfully", data: postMessages });
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }
@@ -19,7 +21,10 @@ export async function getPostById(req, res) {
 
   try {
     const postMessages = await PostMessage.findById(postId);
-    if (postMessages) res.status(200).json(postMessages);
+    if (postMessages)
+      res
+        .status(200)
+        .json({ msg: "Post fetched successfully", data: postMessages });
     else
       res.status(404).json({ msg: "This post dose not exist with that id " });
   } catch (error) {
@@ -32,8 +37,10 @@ export async function createPost(req, res) {
   const newPost = new PostMessage(post);
 
   try {
-    await newPost.save();
-    res.status(201).json(newPost);
+    const createdPost = await newPost.save();
+    res
+      .status(201)
+      .json({ msg: "Post created successfully", data: createdPost });
   } catch (error) {
     res.status(409).json({ msg: error.message });
   }
@@ -45,10 +52,12 @@ export async function updatePost(req, res) {
 
   try {
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(404).send("No post exists with that id ");
+      return res.status(404).send({ msg: "No post exists with that id" });
     }
     const updatedPost = await PostMessage.findByIdAndUpdate(_id, post);
-    res.status(201).json(updatedPost);
+    res
+      .status(201)
+      .json({ msg: "Post updated successfully", data: updatedPost });
   } catch (error) {
     res.status(409).json({ msg: error.message });
   }
@@ -59,7 +68,7 @@ export async function deletePost(req, res) {
 
   try {
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-      return res.status(404).send("No post exists with that id ");
+      return res.status(404).send({ msg: "No post exists with that id" });
     }
     await PostMessage.deleteOne(_id);
     res.status(201).json({ msg: "Post deleted successfully " });
