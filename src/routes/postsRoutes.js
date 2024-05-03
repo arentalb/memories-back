@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createPost,
+  deletePost,
   getPostById,
   getPosts,
   updatePost,
@@ -9,8 +10,9 @@ import {
 const router = express.Router();
 
 router.get("/", getPosts);
+router.get("/:id", getPostById);
 router.post("/", createPost);
 router.patch("/:id", updatePost);
-router.get("/:id", getPostById);
+router.delete("/:id", deletePost);
 
 export default router;
